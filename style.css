@@ -1,0 +1,132 @@
+:root{
+  --main-bg-color: #fed9c9;
+  /* --main-bg-color: #fff; */
+  --main-text-color: #3b3b3d;
+    --header-text-color:#3b3b3d;
+    --sub-text-color: #555555;
+    --cat-boomlive: #bf00ff;
+    --cat-logicalindian: #0051ff;
+    --cat-indiatoday: #00ff84;
+}
+/*Introduction/Landing Page*/ 
+
+body{
+    background-color: var(--main-bg-color);
+    margin: clamp(.5em, 5vw, 5em);
+}
+
+.container{
+    width: 92.5%;
+  padding-top: 2rem;
+  margin: 0 auto;
+}
+
+/*.heading{
+    position:fixed;
+    width: 100vw;
+    height: 100vh;
+    font-size:5vw;
+    line-height:10vw;
+    z-index:999;
+    text-align:center;
+    color: var(--header-text-color);
+    /*border-bottom:2px solid;opacity:.5
+}*/
+
+.heading{
+    position: absolute;
+    font-size: clamp(10px, 5vw, 100px);
+    font-family:'Nanum Myeongjo', serif;
+    text-align: center;
+    line-height: 2em;
+    margin-top: 200;
+    margin-left: auto;
+    margin-right: auto;
+    width: 18em;
+    color: var(--header-text-color)
+}
+
+.introduction{
+    text-align: center;
+    margin-top: -1em;
+    padding-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 12em;
+}
+
+h5{ 
+    font-size: clamp(12px, 2vw, 30px);
+    line-height: 1.3em;
+    font-family: 'Open Sans', sans-serif; 
+    font-weight: 300;
+    color: var(--sub-text-color);
+}
+
+/* Graph Chart*/
+
+.chart {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    grid-gap: 150px;
+    justify-content: space-between;
+    margin-top: clamp(50px, 90vh, 700px);
+    /* position: relative; */
+}
+  
+#graph {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 20px;
+    height: 100vh;
+    width: auto;
+}
+
+#graph-title,
+#legend {
+  font-family:'Nanum Myeongjo', serif;
+  font-size:large;
+  margin-left: 40px;
+  color: var(--header-text-color)
+}
+
+#legend div div {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  margin: 0;
+  
+}
+
+#legend div {
+  display: inline-block;
+  margin-right: 1rem;
+  font-family: 'Open Sans', sans-serif; 
+  color: var(--sub-text-color);
+  /* white-space: pre-wrap; */
+}
+
+#legend {
+    width: 100%;
+    max-width: 800px;
+    padding-bottom: 1.5rem;
+    margin-top: -1rem;
+    font-size: 1.35rem;
+    padding-left: 5px;
+}
+
+.BoomLive div {
+  background-color: var(--cat-boomlive);
+  /* white-space: nowrap; */
+}
+
+.LogicalIndian div {
+  background-color: var(--cat-logicalindian);
+  /* white-space: nowrap; */
+}
+
+.IndiaToday div {
+  background-color: var(--cat-indiatoday);
+  /* white-space: nowrap; */
+}

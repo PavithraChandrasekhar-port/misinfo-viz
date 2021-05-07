@@ -1,197 +1,41 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <!-- metas -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <head>
+         <!-------Metas---------> 
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <!-------Link Sheets, Scripts and Libraries ---------> 
+        <link rel="stylesheet" href="css/style.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="scripts/script.js" async defer></script>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+    </head>
 
-    <title>Misinformation Trends in India</title>
-    <link rel="shortcut icon" type="image/png" href="favicon.ico" />
+    <body>
 
-    <!-- style -->
-    <!-- google font -->
-    <!-- loading locally -->
-    <!-- <link
-      href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,500,700"
-      rel="stylesheet"
-    /> -->
-    <!-- local sheets -->
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/default.css" />
-    <link rel="stylesheet" href="css/typography.css" />
-    <link rel="stylesheet" href="css/style.css" />
+     <!-------Introduction--------->   
+     <div class="container">
+        <div class="heading"> 
+            <h1> Misinformation Trends in India </h1>
+            <div class="introduction">
+                <h5> 
+                    A breakdown of patterns revealed from analyzing debunked
+                    information over the last 3 years.
+                </h5>
+            </div>
+            <div class="coming-soon">
+                <h4> 
+                    Project Coming Soon
+                </h4>
+            </div>
+        </div> 
+     <!-------Chart---------> 
 
-    <!-- lib scripts -->
-    <!-- vue minified vue in production -->
-    <script src="scripts/libs/vue.min.js"></script>
-    <!-- d3 v5 -->
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <!-- scroll library -->
-    <script src="scripts/libs/graph-scroll.js"></script>
-  </head>
-
-  <body>
-    <div id="container">
-      <div id="intro">
-        <div id="title">
-          <h1>Misinformation Trends in India</h1>
-          <h4>
-            A breakdown of <span class="emphasis">patterns</span> revealed from 
-            analyzing debunked information over the last 3 years
-          </h4>
-          </p>
+    
         </div>
-        <div id="intro-content">
-          <p>
-            Misinformation is “false information that is spread, regardless of intent to mislead.
-            The rampant spread of misinformation poses new challenges for navigating life. 
-            Understanding the concept is vital to identifying misinformation in the wild, and 
-            ultimately curbing its impact. Misinformation can take on many forms such as false 
-            rumors, insults, and pranks to disinformation, which is a subset of misinformation that 
-            is deliberately deceptive, e. g. malicious hoaxes, spearphishing, and computational propaganda
-          </p>
-        </div>
-      </div>
-      <div id="chart">
-        <div id="graph">
-          <div id="graph-title">
-            <h3></h3>
-          </div>
-          <div id="legend">
-            <div class="news">
-              <div></div>
-              <span>Protests/Dissenting Voices</span>
-            </div>
-            <div class="ent">
-              <div></div>
-              <span>Politicians</span>
-            </div>
-            <div class="social">
-              <div></div>
-              <span>Muslims</span>
-            </div>
-            <div class="shopping">
-              <div></div>
-              <span>Covid-19</span>
-            </div>
-            <div class="google">
-              <div></div>
-              <span>Other</span>
-            </div>
-          </div>
-          <svg :width="svgWidth" :height="svgHeight">
-            <g :transform="`translate(${margin.left}, ${margin.bottom})`">
-              <g v-axis:x="scale" class="x-axis"></g>
-              <g v-axis:y="scale" class="y-axis"></g>
-              <g v-grid:gridlines="scale" class="gridlines"></g>
-
-              <g v-for="(d, i) in filteredData">
-                <g v-for="(d, i) in d.values">
-                  <circle
-                    :cx="setShown !== 4 ? (5 + scale.x(i)) : (5 + scale.x(d.days))"
-                    :cy="(setShown == 0 ? (scale.y(d.party) + (height * 0.08)) : ((setShown == 1 || setShown == 4) ? (scale.y(d.domain) + 5) : (setShown == 3 ? (scale.y(d.type) + (height * 0.08)):(scale.y(d.cat) + 20))))"
-                    :r="3"
-                    :name="d.domain"
-                    :fill="myFill(d.cat)"
-                    :class="[d.id == iSelected ? 'circle-active' : (iSelected !=null ? 'circle-inactive' : 'circle-up')]"
-                    @mouseover="showLabel = !showLabel,
-              myTooltip(d), select(d.id)"
-                    @mouseleave="showLabel = !showLabel, myTooltip(d), select(null)"
-                  />
-                </g>
-              </g>
-
-              <text x="5" :y="svgHeight - margin.bottom - margin.top">
-                {{ xAxisLabel }}
-              </text>
-            </g>
-          </svg>
-        </div>
-        <section id="sections" class="text-content">
-          <div class="text-area">
-            <h5 class="total">Classification by Time</h5>
-            <p>
-              The corpus collected presents three IFCN certified 
-              fact checking sources and number of claims from 2018-2021.  
-            </p>
-          
-          </div>
-          <div class="text-area">
-            <h5 class="total">In 2021,</h5>
-            <p>
-              Above <span class="emphasis">17%</span> of debunked Misinformation mentioned the word <span class="emphasis">'Farmers'</span> in it.
-
-              <span class="emphasis">'Protests'</span> were mentioned <span class="emphasis">123</span> times in 760 claims.
-          
-            </p>
-          </div>
-          <div class="text-area">
-            <!-- <h5 class="total">first-party Cookies Only</h5> -->
-            <p>
-              Other frequently occuring patterns in 2021 consisted of topics
-              such as <span class="emphasis">Narendra Modi,</span> <span class="emphasis">Mamata Banarjee,</span>
-              <span class="emphasis">Covid Vaccine </span>and <span class="emphasis">Uttar Pradesh</span>
-            </p>
-        
-          </div>
-          <div class="text-area">
-            <!-- <h5 class="total">Cookie Information</h5> -->
-            <p>
-              Misinformation recurringly occured around <span class="emphasis">'Narendra Modi'</span> and 
-              <span class="emphasis">'BJP'</span> not just in 2021 but over the last 3 years.
-            </p>
-            <p>
-              And a significant traction of fake news was geared by or towards politicians.
-              
-            <div class="link-contain">
-              <a :href="misinfoIndex" target="_blank"
-               
-              >
-            </div>
-          </div>
-          <div class="text-area">
-            <h5 class="total">Islamaphobia</h5>
-            <p>
-              Muslims in the coutry were targeted and victims of propaganda. The 
-              sheer volume of claims against muslims contributed to over 
-              <span class="emphasis">10%</span> of the misinformation over the past
-              3 years. 
-            </p>
-          </div>
-          <div class="text-area">
-            <h5 class="total">Covid-19</h5>
-            <p>
-              In 2020, <span class="emphasis">Covid-19</span> and 
-              <span class="emphasis">Corona Virus</span> were frequently spotted 
-              in claims and fake news, in one year it contributed to 10% of the 
-              misinformation. 
-              
-              
-          </div>
-          <div class="text-area">
-            <h5 class="total">Sentiment Analysis</h5>
-            <p>
-              It was also noticed from a sentimental analyis of the corpus that 
-              misinformation was rarely nuetral. 
-            </p>
-
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="footnotes">
-        <hr class="footer" />
-        <h6>Methodology, Sources, and Footnotes</h6>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim 
-          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-          consequat.
-        </p>
-        </p>
-      </div>
     </div>
-    <script src="scripts/script.js"></script>
-  </body>
+     
+    </body>
 </html>
