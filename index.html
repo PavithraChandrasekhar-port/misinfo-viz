@@ -1,41 +1,296 @@
 <!DOCTYPE html>
-    <head>
-         <!-------Metas---------> 
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-         <!-------Link Sheets, Scripts and Libraries ---------> 
-        <link rel="stylesheet" href="css/style.css">
-        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-        <script src="scripts/script.js" async defer></script>
-        <script src="https://d3js.org/d3.v5.min.js"></script>
-    </head>
+<html>
+  <head>
+    <!-- metas -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <body>
+    <title>Misinformation Trends in India</title>
+    <link rel="shortcut icon" type="image/png" href="favicon.ico" />
 
-     <!-------Introduction--------->   
-     <div class="container">
-        <div class="heading"> 
-            <h1> Misinformation Trends in India </h1>
-            <div class="introduction">
-                <h5> 
-                    A breakdown of patterns revealed from analyzing debunked
-                    information over the last 3 years.
-                </h5>
-            </div>
-            <div class="coming-soon">
-                <h4> 
-                    Project Coming Soon
-                </h4>
-            </div>
-        </div> 
-     <!-------Chart---------> 
+    <!-- style -->
+    <!-- google font -->
+    <!-- loading locally -->
+    <!-- <link
+      href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,500,700"
+      rel="stylesheet"
+    /> -->
+    <!-- local sheets -->
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/default.css" />
+    <link rel="stylesheet" href="css/typography.css" />
+    <link rel="stylesheet" href="css/style.css" />
 
-    
+    <!-- lib scripts -->
+    <!-- vue minified vue in production -->
+    <script src="scripts/libs/vue.min.js"></script>
+    <!-- d3 v5 -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!-- scroll library -->
+    <script src="scripts/libs/graph-scroll.js"></script>
+  </head>
+
+  <body>
+    <div id="container">
+      <div id="intro">
+        <div id="title">
+          <h1>Misinformation Trends in India</h1>
+          <p>
+            Revealing patterns in debunked information.
+        
+          <p>
+          
         </div>
+        <div id="intro-content">
+          
+        </div>
+      </div>
+      <div id="chart">
+        <div id="graph">
+          <div id="graph-title">
+            <h3>{{ graphTitle }}</h3>
+          </div>
+          <div id="legend">
+            <div class="protests">
+              <div></div>
+              <span>Protests</span>
+            </div> 
+            <div class="politicians">
+              <div></div>
+              <span>Politicians</span>
+            </div>
+            <div class="muslims">
+              <div></div>
+              <span>Anti-Muslim</span>
+            </div>
+            <div class="covid-19">
+              <div></div>
+              <span>Covid-19</span>
+            </div>
+            <div class="other">
+              <div></div>
+              <span>Other</span>
+            </div>
+           
+          </div>
+          <svg :width="svgWidth" :height="svgHeight">
+            <g :transform="`translate(${margin.left}, ${margin.bottom})`">
+              <g v-axis:x="scale" class="x-axis"></g>
+              <g v-axis:y="scale" class="y-axis"></g>
+              <g v-grid:gridlines="scale" class="gridlines"></g>
+
+              <g v-for="(d, i) in filteredData">
+                <g v-for="(d, i) in d.values">
+                  <circle
+                    :cx="setShown !== 4 ? (5 + scale.x(i)) : (5 + scale.x(d.days))"
+                    :cy="(setShown == 0 ? (scale.y(d.party) + (height * 0.08)) : ((setShown == 1 || setShown == 4) ? (scale.y(d.domain) + 5) : (setShown == 3 ? (scale.y(d.type) + (height * 0.08)):(scale.y(d.cat) + 20))))"
+                    :r="10"
+                    :name="d.domain"
+                    :fill="myFill(d.cat)"
+                    :class="[d.id == iSelected ? 'circle-active' : (iSelected !=null ? 'circle-inactive' : 'circle-up')]"
+                    @mouseover="showLabel = !showLabel,
+              myTooltip(d), select(d.id)"
+                    @mouseleave="showLabel = !showLabel, myTooltip(d), select(null)"
+                  />
+                </g>
+              </g>
+
+              <text x="5" :y="svgHeight - margin.bottom - margin.top">
+                {{ xAxisLabel }}
+              </text>
+            </g>
+          </svg>
+        </div>
+        <section id="sections" class="text-content">
+          <div class="text-area">
+            <h5 class="total">Misinformation by Source</h5>
+            <p>
+              Misinformation has increasingly become a pervasive issue that traverses social media platforms. Organizations like 
+              Boom Live, Logical Indian and India Today are IFCN certified fact-checking websites that debunks information. 
+            <p>
+              This investigation analyzed and presents
+              recurring patterns in 3500+ claims from these organizations.
+            </p>
+          </div>
+          <div class="text-area">
+            <h5 class="total">Emerging Themes</h5>
+            <p>
+              The analysis revealed 15+ key-words that were recurring frequently. It was possible to identify underlying themes within these terms 
+              and categorize them into four main categories. The themes were COVID-19, Politicians, Protests and Muslims.
+
+            </p>
+          </div>
+          <div class="text-area">
+           <h5 class="total">Breakdown of patterns: COVID-19</h5> 
+            <p>
+              "COVID-19", "Coronavirus", "COVID-19 Vaccine" were frequently occuring words in 2020-2021.</p>
+
+             <p> COVID-19 has triggered mass misinformation within India. The public health misinformation
+              does considerable damage to the people causing panic and misleading the public to adopt 
+              practices that are harmful in times of a crisis. </p>
+
+              <p>To understand what misinformation in this category looks like 
+              hover the graphs.</p>
+
+            </p>
+  
+          </div>
+          <div class="text-area">
+
+            <h5 class="total">Breakdown of patterns: Politicians</h5> 
+            <p>
+            Politicians contributed to 14% of overall claims in which close to 50 claims were about "Rahul Gandhi".
+            "Narendra Modi" and "BJP" contributed to 10% of the misinformation within the given corpus. 
+         
+            </p> 
+
+            <p>
+              BJP President, "Amit Shah" had previously <a href="https://thewire.in/politics/amit-shah-bjp-fake-social-media-messages"> said</a> that his party workers are capable of delivering
+              any message to the public, true or fake. 
+            </p>
+            <p>
+              To understand what misinformation in this category looks like hover the graphs.
+            </p>
+
+      
+          </div>
+          <div class="text-area">
+            <h5 class="total">Breakdown of patterns: Protests</h5>
+            <p>
+              112 out of 530 claims in 2021 was about "Farmers", "Farmers Protest" or "Protest"
+              The government has a history of shutting down protests and dissenting voices against the government
+              in the guise of misinformation. This happened recently with the <a href= "https://www.wsj.com/articles/facebook-blocks-then-restores-content-calling-on-indian-prime-minister-modi-to-resign-11619652354"> COVID-19 surge </a> and the <a href = "https://www.theguardian.com/world/2021/feb/09/twitter-concerned-for-staff-in-india-after-row-over-account-removals">farmers protest.</a> 
+              </p> 
+              <p>
+              However, by hovering over the graphs in this section you can notice that the misinformation that is circulated in this category is usually 
+              about the protest itself and not the cause of the protest. 
+            </p>
+          </div>
+
+          <div class="text-area">
+            <h5 class="total">Breakdown of patterns: Anti-Muslim</h5>
+            <p>
+              "Muslim" is a frequently occuring key word in misinformation. Anti-muslim misinformation has led to <a href = "https://caravanmagazine.in/religion/delhi-violence-north-east-maujpur-jaffrabad-babarpur-muslims-hindu">killing of muslims within the country.</a>
+              The misinformation against muslims is a form of hate speech that accelerates the existing deep-seated prejudice against muslims and islamaphobia.
+              
+            </p>
+            <p>
+
+            </p>
+            <p>
+            
+            </p>
+          </div>
+          <div class="text-area">
+            <h5 class="total"></h5>
+            <p>
+              To understand what misinformation in this category looks like hover the graphs.
+            </p>
+
+            
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- <div id="conclusion" class="body-text"> -->
+        <!-- <h5 class="total">Reflections</h5>
+        <p>
+          Cookies are not inherently malicious. Often they are necessary for
+          functionality that impacts your experience on the web in positive
+          ways. However, when unknown third parties with unrecognizable names
+          store cookies on your computer for up to 100 years with the sole
+          purpose of tracking your online activity and serving targeted
+          advertisements, we should be concerned about privacy on the web.
+        </p>
+        <p>
+          New regulations like the
+          <a href="https://eugdpr.org/" target="_blank"
+            >General Data Protection Regulation (GDPR)</a
+          >
+          in the European Union have set new standards for tracking consent on
+          the web——the reason you've seen
+          <a
+            @mouseover="showHoverTip = !showHoverTip, hoverTip('consent')"
+            @mouseleave="showHoverTip = !showHoverTip, hoverTip()"
+            >these cookie notifications</a
+          >
+          every time you visit a new site. However, most companies in the US are
+          doing the bare minimum to provide transparency on their cookie usage.
+          The EU continues to lead the charge and will potentially provide more
+          clarity on cookies consent in an
+          <a
+            href="https://techcrunch.com/2018/10/07/eprivacy-an-overview-of-europes-other-big-privacy-rule-change/"
+            target="_blank"
+            >ePrivacy directive revamp</a
+          >
+          that may come as soon as Summer 2019, but that still only affects
+          companies processing EU residents' data. The experience for internet
+          users in the United States may largely stay the same for some time.
+        </p>
+        <p>
+          Vitaly Friedman, in an
+          <a
+            href="https://www.smashingmagazine.com/2019/04/privacy-ux-better-cookie-consent-experiences/"
+            target="_blank"
+            >article</a
+          >
+          published in Smashing Magazine, addressed issues surrounding cookies
+          and tracking consent from a nuanced design perspective. In an ideal
+          state, all websites that use your data would provide cookie management
+          settings which allow users to see the purpose and expiration of every
+          cookie. Additionally, the ability to toggle different cookies on and
+          off would provide complete consent, but that obviously is not in the
+          best interest of advertisers who want to place a lot of lengthy
+          third-party tracking cookies on your computer.
+        </p>
+        <h5 class="total">What can you do?</h5>
+
+        <p>
+          If you're concerned like I was after my research, one of the easiest
+          steps you can take is to turn off third-party cookies. Every major
+          browser has this option. Safari already has third-party cookies
+          disabled by default and Firefox will be disabling them by default in
+          <a
+            href="https://blog.mozilla.org/futurereleases/2018/08/30/changing-our-approach-to-anti-tracking/"
+            target="_blank"
+            >Firefox 65</a
+          >. But if you're like me and the other 63% of internet
+          users<sup>[4]</sup>, you most likely use Chrome, which does not block
+          them by default. You can manually block third-party cookies by
+          <a
+            href="https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=en"
+            target="_blank"
+            >following these instructions</a
+          >.
+        </p>
+        <span id="happy" class="datum"><i>Happy browsing...</i></span>
+      </div> -->
+      <div class="footnotes">
+        <hr class="footer" />
+        <h6></h6>
+        <p>
+          This story was created for Thesis at Parsons School of Design by Pavithra Chandrasekhar.
+      
+  
+        </p>
+        <p>
+          Data was collected through a webscrape and you can view the code here: <a
+            href="https://colab.research.google.com/drive/1ee-YBgVgyUUqE-0dTexQZUCCsGdru47o?usp=sharing"
+            target="_blank" >Boom Live Scrape</a>,  <a href="https://colab.research.google.com/drive/1s0UKIRLM2yMfQFVuuauYVwdqeoXEYLgV?usp=sharing"
+            target="_blank" >India Today Scrape</a>, <a href="https://colab.research.google.com/drive/1oGqtAWMBQYtqbHum_vDD4lycxhYthoVu?usp=sharing"
+            target="_blank" >The Logical Indian Scrape</a>
+        
+        </p>
+        <p>
+        Created using
+         <a
+          href="https://github.com/AndrewLevinson/dark-data/tree/master/cookies-production"
+          target="_blank"
+          > source code</a> by Andrew Levinson
+        </p> 
+      </div>
     </div>
-     
-    </body>
+    <script src="scripts/script.js"></script>
+  </body>
 </html>
