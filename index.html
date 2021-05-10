@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/default.css" />
     <link rel="stylesheet" href="css/typography.css" />
     <link rel="stylesheet" href="css/style.css" />
+    
 
     <!-- lib scripts -->
     <!-- vue minified vue in production -->
@@ -37,8 +38,7 @@
         <div id="title">
           <h1>Misinformation Trends in India</h1>
           <p>
-            Revealing patterns in debunked information.
-        
+           Revealing patterns in debunked information to act as an outline of content around which misinformation is spread. 
           <p>
           
         </div>
@@ -82,6 +82,7 @@
 
               <g v-for="(d, i) in filteredData">
                 <g v-for="(d, i) in d.values">
+                  
                   <circle
                     :cx="setShown !== 4 ? (5 + scale.x(i)) : (5 + scale.x(d.days))"
                     :cy="(setShown == 0 ? (scale.y(d.party) + (height * 0.08)) : ((setShown == 1 || setShown == 4) ? (scale.y(d.domain) + 5) : (setShown == 3 ? (scale.y(d.type) + (height * 0.08)):(scale.y(d.cat) + 20))))"
@@ -104,7 +105,7 @@
         </div>
         <section id="sections" class="text-content">
           <div class="text-area">
-            <h5 class="total">Data Source</h5>
+            <h5 class="total">Misinformation by Source</h5>
             <p>
               Misinformation has increasingly become a pervasive issue that traverses social media platforms. Organizations like 
               Boom Live, Logical Indian and India Today are IFCN certified fact-checking websites that debunks information. 
@@ -142,8 +143,8 @@
             <p>
             Politicians contributed to 14% of overall claims in which close to 50 claims were about "Rahul Gandhi".
             "Narendra Modi" and "BJP" contributed to 10% of the misinformation within the given corpus. 
-        
-            </p>
+         
+            </p> 
             <p>
               To understand what misinformation in this category looks like hover the graphs.
             </p>
@@ -191,99 +192,35 @@
       <!-- <div id="conclusion" class="body-text"> -->
         <!-- <h5 class="total">Reflections</h5>
         <p>
-          Cookies are not inherently malicious. Often they are necessary for
-          functionality that impacts your experience on the web in positive
-          ways. However, when unknown third parties with unrecognizable names
-          store cookies on your computer for up to 100 years with the sole
-          purpose of tracking your online activity and serving targeted
-          advertisements, we should be concerned about privacy on the web.
+          
         </p>
         <p>
-          New regulations like the
-          <a href="https://eugdpr.org/" target="_blank"
-            >General Data Protection Regulation (GDPR)</a
-          >
-          in the European Union have set new standards for tracking consent on
-          the web——the reason you've seen
-          <a
-            @mouseover="showHoverTip = !showHoverTip, hoverTip('consent')"
-            @mouseleave="showHoverTip = !showHoverTip, hoverTip()"
-            >these cookie notifications</a
-          >
-          every time you visit a new site. However, most companies in the US are
-          doing the bare minimum to provide transparency on their cookie usage.
-          The EU continues to lead the charge and will potentially provide more
-          clarity on cookies consent in an
-          <a
-            href="https://techcrunch.com/2018/10/07/eprivacy-an-overview-of-europes-other-big-privacy-rule-change/"
-            target="_blank"
-            >ePrivacy directive revamp</a
-          >
-          that may come as soon as Summer 2019, but that still only affects
-          companies processing EU residents' data. The experience for internet
-          users in the United States may largely stay the same for some time.
+          
         </p>
         <p>
-          Vitaly Friedman, in an
-          <a
-            href="https://www.smashingmagazine.com/2019/04/privacy-ux-better-cookie-consent-experiences/"
-            target="_blank"
-            >article</a
-          >
-          published in Smashing Magazine, addressed issues surrounding cookies
-          and tracking consent from a nuanced design perspective. In an ideal
-          state, all websites that use your data would provide cookie management
-          settings which allow users to see the purpose and expiration of every
-          cookie. Additionally, the ability to toggle different cookies on and
-          off would provide complete consent, but that obviously is not in the
-          best interest of advertisers who want to place a lot of lengthy
-          third-party tracking cookies on your computer.
+         
         </p>
         <h5 class="total">What can you do?</h5>
 
         <p>
-          If you're concerned like I was after my research, one of the easiest
-          steps you can take is to turn off third-party cookies. Every major
-          browser has this option. Safari already has third-party cookies
-          disabled by default and Firefox will be disabling them by default in
-          <a
-            href="https://blog.mozilla.org/futurereleases/2018/08/30/changing-our-approach-to-anti-tracking/"
-            target="_blank"
-            >Firefox 65</a
-          >. But if you're like me and the other 63% of internet
-          users<sup>[4]</sup>, you most likely use Chrome, which does not block
-          them by default. You can manually block third-party cookies by
-          <a
-            href="https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=en"
-            target="_blank"
-            >following these instructions</a
-          >.
+
         </p>
-        <span id="happy" class="datum"><i>Happy browsing...</i></span>
       </div> -->
-      <div class="footnotes">
-        <hr class="footer" />
-        <h6></h6>
-        <p>
-          This story was created for Thesis at Parsons School of Design by Pavithra Chandrasekhar.
-      
+      <div class="footer">
   
-        </p>
-        <p>
-          Data was collected through a webscrape and you can view the code here: <a
-            href="https://colab.research.google.com/drive/1ee-YBgVgyUUqE-0dTexQZUCCsGdru47o?usp=sharing"
-            target="_blank" >Boom Live Scrape</a>,  <a href="https://colab.research.google.com/drive/1s0UKIRLM2yMfQFVuuauYVwdqeoXEYLgV?usp=sharing"
-            target="_blank" >India Today Scrape</a>, <a href="https://colab.research.google.com/drive/1oGqtAWMBQYtqbHum_vDD4lycxhYthoVu?usp=sharing"
-            target="_blank" >The Logical Indian Scrape</a>
-        
-        </p>
-        <p>
-        Created using
-         <a
-          href="https://github.com/AndrewLevinson/dark-data/tree/master/cookies-production"
-          target="_blank"
-          > source code</a> by Andrew Levinson
-        </p> 
+        <footer>
+          <ul>
+            <li class="SEO-text">This story was created for Thesis at Parsons School of Design by Pavithra Chandrasekhar. This project was created using <a class="underline"  href="https://github.com/AndrewLevinson/dark-data/tree/master/cookies-production" target="_blank">source code</a> by Andrew Levinson.
+            <li class="SEO-text">View my <a class="underline"  href="https://github.com/PavithraChandrasekhar-port/misinfo-viz" target="_blank"></a>code. Review the <a class="underline"  href="https://github.com/PavithraChandrasekhar-port/data-investigation-misinfo" target="_blank">data</a></li>.
+            </li>
+            <li class="footer-line"></li>
+            <li class="copyright">
+              <!-- <span id="OR_FOOT_logo"><img src="http://static5.orstatic.com/info/app-revamp/promotion/images/ci/footer-logo.png" width="26" height="26"  alt=""/></span> -->
+              <span class="copyright-text"> Last Updated Claim: March 31st 2021.  </span>
+            </li>
+          </ul>
+        </footer>
+
       </div>
     </div>
     <script src="scripts/script.js"></script>

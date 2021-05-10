@@ -29,16 +29,18 @@ body {
   font-size: 1.7em;
   /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.4;
-  font-weight: 300;
+  /* /font-weight: 300; */
   /* font-family: "Playfair Display", serif; */
-  font-family: "IBM Plex Mono", monospace;
+  font-family: neuzeit-grotesk,sans-serif;
+  font-weight: 400;
+  font-style: normal;
   color: #3b3b3d;
   -webkit-font-smoothing: antialiased;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
 }
 
 .text-area {
-  font-size: 1.7rem;
+  font-size: 2.1rem;
   line-height: 1.45;
 }
 g {

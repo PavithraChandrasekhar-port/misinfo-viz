@@ -9,7 +9,7 @@ html {
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
+  box-sizing: auto;
 }
 
 /* Reset margins and paddings on most elements */

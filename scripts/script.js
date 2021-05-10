@@ -3,28 +3,15 @@ var app = new Vue({
   el: "#container",
   data() {
     return {
-      graphTitle: "Cookies",
+      graphTitle: "Misingformation",
       svgHeight: window.innerHeight * 0.825,
       margin: { top: 25, left: 150, bottom: 25, right: 25 },
-      cookies: [{}],
+      misinfo: [{}],
       showLabel: false,
       showLabelAuto: false,
       showHoverTip: false,
-      links: {
-        txtImg: "./assets/images/cookietxt.png",
-        everOne: "./assets/images/everlane.png",
-        everTwo: "./assets/images/everlane2.png",
-        everThree: "./assets/images/everlane3.png",
-        everFour: "./assets/images/everlane4.png",
-        consent: "./assets/images/consent.png"
-      },
-      activeLink: null,
       iSelected: null,
-      activeIndex: 0,
-      domainSelected: null,
       fixedTip: false,
-      special: false,
-      myCount: null,
       nested_data: [{}],
       domainX: {
         min: 0,
@@ -61,30 +48,16 @@ var app = new Vue({
       return this.svgHeight - this.margin.top - this.margin.bottom;
     },
     scale() {
-      // console.log(this.cookies);
       const x = d3
         .scaleLinear()
-        // .domain([0, Math.max(...this.nested_data.map(x => x.values.length))])
         .domain([0, this.domainX.max])
         .rangeRound([0, this.width]);
 
       const y = d3
         .scaleBand()
-        // .domain(
-        //   this.setShown != 4
-        //     ? this.filteredData.map(y => y.key)
-        //     : this.cookies.map(y => y.site)
-        // )
         .domain(this.filteredData.map(y => y.key))
-        // https://github.com/d3/d3-scale/blob/master/README.md#band_rangeRound
         .rangeRound([0, this.height])
         .padding(0.6);
-
-      // const grid = d3
-      //   .scaleLinear()
-      //   .domain([0, this.domainX.max])
-      //   .rangeRound([0, this.width]);
-
       const gridlines = d3
         .scaleLinear()
         .domain([0, this.domainX.max])
@@ -92,11 +65,7 @@ var app = new Vue({
 
       return { x, y, gridlines };
     },
-    cookieQuery() {
-      return `https://cookiepedia.co.uk/cookies/${
-        this.cookies[this.activeIndex].name
-      }`;
-    }
+  
   },
   created() {
     this.loadData();
@@ -106,24 +75,21 @@ var app = new Vue({
     this.scrollTrigger();
   },
   updated() {
-    // console.log(this.cookies);
+    // console.log(this.misinfo);
   },
   methods: {
     loadData() {
       // d3.json("data/data.json").then(d => {
-      //   return (this.data = d.cookies);
+      //   return (this.data = d.misinfo);
       // });
 
       d3.csv("data/data.csv", d => {
         return {
-          id: +d["cookieID"],
+          id: +d[""],
           party: d["Source"],
           domain: d["Frequented Topics"],
-          thirdpartydom: d["Frequented Topics"],
           cat: d["Overarching Themes"],
           site: d["Links"],
-          exp: +d["exp"],
-          type: d["type"],
           purpose: d["Year"],
           name: d["Claims"]
         };
@@ -134,9 +100,9 @@ var app = new Vue({
             .filter(d => d.domain != "Other")
             .map(d => ({
               ...d,
-              days: this.timeConvert(d.exp)
+              days: this.convertData(d.exp)
             }));
-          return (this.cookies = convertedData);
+          return (this.misinfo = convertedData);
         })
         .then(() => {
           this.nested_data = d3
@@ -144,7 +110,7 @@ var app = new Vue({
             .key(d => {
               return d.party;
             })
-            .entries(this.cookies);
+            .entries(this.misinfo);
           this.sort();
         });
     },
@@ -155,17 +121,11 @@ var app = new Vue({
         });
       });
     },
-    timeConvert(e) {
+    convertData(e) {
       // used to convert unix seconds to number of days until expiration
-      let cookiesSeconds = e;
-      let start = new Date(0); // The 0 there is the key, which sets the date to the epoch
-      let updatedD = start.setUTCSeconds(cookiesSeconds);
-      // april 14 (need to subtract 1 since data was collected april 13)
-      let today = 1555277525106;
-      // let today = Date.now();
-      let difference = Math.round((updatedD - today) / 86400000) + 1;
+      let misinfodex = e;
 
-      return difference;
+      return misinfodex;
     },
     select(id) {
       this.iSelected = id;
@@ -265,29 +225,13 @@ var app = new Vue({
       }
     },
     count() {
-      return this.cookies.length;
+      return this.misinfo.length;
     },
     numFormater(el) {
       const numFormatT = d3.format(",d");
       return numFormatT(el);
     },
-    randomID() {
-      // trigger tooltip with random FIRST PARTY cookie
-      // pick random cookie from 472 options (first party amount)
-      const randomPick = Math.floor(Math.random() * 473);
-
-      // first party only, id of randomPick
-      const activeValue = this.cookies
-        .filter(x => x.party === "First Party")
-        .map(e => e.id)[randomPick];
-
-      // find index of randomly selected cookie id
-      this.activeIndex = this.cookies.map(e => e.id).indexOf(activeValue);
-      // use activeIndex to sect active index, show label, and fire tooltip method
-      this.select(activeValue);
-      this.showLabelAuto = true;
-      this.myTooltip(this.cookies[this.activeIndex]);
-    },
+    
     scrollTrigger() {
       d3.graphScroll()
         .offset(130)
@@ -308,7 +252,7 @@ var app = new Vue({
                 .key(d => {
                   return d.party;
                 })
-                .entries(this.cookies);
+                .entries(this.misinfo);
               this.sort();
 
               // this.filterKey = "3rd Party";
@@ -329,7 +273,7 @@ var app = new Vue({
                 .key(d => {
                   return d.cat;
                 })
-                .entries(this.cookies);
+                .entries(this.misinfo);
 
               this.sort();
 
@@ -355,7 +299,7 @@ var app = new Vue({
                   return d.domain
                   }
                 })
-                .entries(this.cookies);
+                .entries(this.misinfo);
 
               // only first parties max domain
               this.domainX.max = 200;
@@ -383,7 +327,7 @@ var app = new Vue({
                   return d.domain
                   }
                 })
-                .entries(this.cookies);
+                .entries(this.misinfo);
 
               // only first parties max domain
               this.domainX.max = 250;
@@ -411,7 +355,7 @@ var app = new Vue({
                   return d.domain
                   }
                 })
-                .entries(this.cookies);
+                .entries(this.misinfo);
 
               // only first parties max domain
               this.domainX.max = 165;
@@ -439,7 +383,7 @@ var app = new Vue({
                     return d.domain
                     }
                   })
-                  .entries(this.cookies);
+                  .entries(this.misinfo);
   
                 // only first parties max domain
                 this.domainX.max = 250;
